@@ -23,7 +23,7 @@ userSchema.methods.comparePassword = async function (password) {
 userSchema.methods.generateToken = function() {
 const payload = {id: this._id, username: this.username};
 
-return jwt.sign(payload,process.env.SECRET_KEY, {expiresIn: '1m'});
+return jwt.sign(payload,process.env.SECRET_KEY, {expiresIn: '1h'});
 }
 
 module.exports = mongoose.model('User',userSchema);
