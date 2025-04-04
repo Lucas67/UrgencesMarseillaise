@@ -4,7 +4,8 @@ export const loginUser = createAsyncThunk(
     'auth/loginUser',
     async ({username, password}, {rejectWithValue}) => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
+            const apiURL = import.meta.env.VITE_API_URL;
+            const response = await fetch(`${apiURL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,6 +37,7 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.isAuthenticated = false;
+            navigate('/login');
         }
     },
     extraReducers: (builder) => {
@@ -43,9 +45,10 @@ const authSlice = createSlice({
         .addCase(loginUser.fulfilled, (state,action) => {
             state.user = action.payload;
             state.isAuthenticated = true;
+            
         })
         .addCase(loginUser.rejected, (state,action) => {
-            alert(`${action.payload}`);
+        alert('Identifiants incorrects !');
         });
 }
 });

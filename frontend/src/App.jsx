@@ -1,37 +1,25 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Login from './pages/Login';
+import Profile from './pages/Profile';
+import { useSelector, useDispatch} from 'react-redux';
 import {loginUser} from './redux/slices/authSlice';
 
+
+const PrivateRoute = ({children}) => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  return isAuthenticated ? children : <Navigate to="/" />;
+}
 function App() {
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(loginUser({username, password}));
-  };
-  
   return (
     <>
-     <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Nom d'utilisateur"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    style={{ width: '100%', margin: '5px 0', padding: '8px' }}
-                />
-                <input
-                    type="password"
-                    placeholder="Mot de passe"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={{ width: '100%', margin: '5px 0', padding: '8px' }}
-                />  
-                <button type="submit">Se connecter</button>
-        </form>
+   <Router>
+    <Routes>
+    <Route path="/" element={<Login />} />
+    <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+    </Routes>
+   </Router>
     </>
   )
 }
