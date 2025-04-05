@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {loginUser} from '../redux/slices/authSlice';
 import { useNavigate } from "react-router-dom";
@@ -14,11 +14,14 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginUser({username, password}));
-    if(loginUser.fulfilled) {
-        navigate('/profile');
-    }
+    };
+
+    useEffect(() => {
+if (isAuthenticated) {
+  navigate('/profile')
+}
+    },[isAuthenticated, navigate]);
     
-  };
   
   return (
     <>

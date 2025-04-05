@@ -17,7 +17,7 @@ router.get("/",auth, async (req, res) => {
             message: 'Profil joueur',
             user: {
                 username: user.username,
-                created: user.createdAt
+                created: user.email
             }
         });
     } catch(err) {
