@@ -24,7 +24,7 @@ function Profile() {
     }
     return(
         <>
-         <h1>Bravo ! Tu es {isAuthenticated ? (<h1>Authentifié !</h1>) : (<h1>Erreur</h1>)}</h1>
+         <h1>Bravo ! Tu es {isAuthenticated ? ('Authentifié !') : ('Erreur')}</h1>
          <button onClick={handleLogout}>Se déconnecter</button>
         </>
     );
