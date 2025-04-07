@@ -107,7 +107,7 @@ export const checkUsername = createAsyncThunk(
 
 export const register = createAsyncThunk(
     'auth/regiter',
-    async({username, password}, {rejectWithValue}) => {
+    async({username, password,email}, {rejectWithValue}) => {
         try {
           const apiURL = import.meta.env.VITE_API_URL;
           const response = await fetch(`${apiURL}/auth/register`, {
@@ -115,7 +115,7 @@ export const register = createAsyncThunk(
              headers: {
                 'Content-Type': 'application/json'
              },
-             body: JSON.stringify({username, password})
+             body: JSON.stringify({username, password,email})
           });
 
           if(!response.ok) {
@@ -188,7 +188,7 @@ const authSlice = createSlice({
             state.isRegister = true;
         })
         .addCase(register.rejected, (state, action) => {
-            toast.error('Le serveur à renconté un problème !');
+            toast.error(`${action.payload}`);
         })
 
 

@@ -31,7 +31,7 @@ function Register() {
         }
     
         // Lancement de l'inscription
-        dispatch(register({ username, password }));
+        dispatch(register({ username, password, email }));
     };
     
 
@@ -57,6 +57,7 @@ function Register() {
         <>
        <h1>Formulaire d'inscription</h1>
        <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="Saissisez une adresse mail" value={email} onChange={(e) => setEmail(e.target.value)} />
        {username.length > 2 && (
                     <p style={{ color: isUsernameAvailable ? 'green' : 'red' }}>
                         {isUsernameAvailable ? `Nom d'utilisateur disponible` : `Nom d'utilisateur déjà pris !`}
