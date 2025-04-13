@@ -1,0 +1,1 @@
+{"root":["./src/server.ts","./src/models/user.ts","./src/routes/auth.ts","./src/routes/profile.ts"],"errors":true,"version":"5.8.3"}

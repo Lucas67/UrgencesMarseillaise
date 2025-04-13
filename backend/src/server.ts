@@ -5,9 +5,9 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import http from 'http';
-import { Server } from 'socket.io';
-import authRoutes from './routes/profile';
-import profilesRoutes from './routes/profile';
+// import { Server } from 'socket.io';
+import authRoutes from './routes/auth';
+import profileRoutes from './routes/profile';
 
 const app: Application = express();
 const server = http.createServer(app);
@@ -24,8 +24,9 @@ mongoose.connect(process.env.MONGO as string)
     .catch((err) => console.error("Erreur de connexion à la base de données", err));
 
 const PORT = process.env.LISTEN_PORT || 3000;
+
 app.use('/auth',authRoutes);
-app.use('/profile',profilesRoutes);
+app.use('/profile',profileRoutes);
 
 server.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
