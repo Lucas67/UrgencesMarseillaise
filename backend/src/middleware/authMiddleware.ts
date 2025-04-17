@@ -34,4 +34,4 @@ return;
 
 }
 
-export default auth;
+export {auth, Authenticated};

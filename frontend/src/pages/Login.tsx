@@ -4,14 +4,15 @@ import {loginUser} from '../redux/slices/authSlice';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {RootState, AppDispatch} from '../redux/store';
 
 function Login() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const {isAuthenticated} = useSelector((state) => state.auth);
+  const {isAuthenticated} = useSelector((state: RootState) => state.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();

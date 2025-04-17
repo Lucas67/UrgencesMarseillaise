@@ -1,0 +1,28 @@
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from '../redux/slices/authSlice';
+import { useNavigate } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
+function Login() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { isAuthenticated } = useSelector((state) => state.auth);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(loginUser({ username, password }));
+    };
+    const handleRegister = (e) => {
+        e.preventDefault();
+        navigate('/register');
+    };
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/profile');
+        }
+    }, [isAuthenticated, navigate]);
+    return (_jsx(_Fragment, { children: _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("input", { type: "text", placeholder: "Nom d'utilisateur", value: username, onChange: (e) => setUsername(e.target.value), style: { width: '100%', margin: '5px 0', padding: '8px' } }), _jsx("input", { type: "password", placeholder: "Mot de passe", value: password, onChange: (e) => setPassword(e.target.value), style: { width: '100%', margin: '5px 0', padding: '8px' } }), _jsx("button", { type: "submit", children: "Se connecter" }), _jsx("button", { onClick: handleRegister, children: "S'inscrire" })] }) }));
+}
+export default Login;

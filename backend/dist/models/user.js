@@ -10,6 +10,9 @@ const userSchema = new mongoose_1.Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    caserneName: { type: String, required: true },
+    grade: { type: String, required: true },
+    status: { type: String, required: true, default: 'Au repos' }
 });
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password'))

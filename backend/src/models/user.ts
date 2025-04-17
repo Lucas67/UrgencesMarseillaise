@@ -6,6 +6,9 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
+  caserneName: string;
+  grade: string;
+  status: string;
   comparePassword(password: string): Promise<boolean>;
   generateToken(): string;
 }
@@ -14,6 +17,9 @@ const userSchema = new Schema<IUser>({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  caserneName: { type: String, required: true },
+  grade: { type: String, required: true },
+  status: { type: String, required: true, default: 'Au repos' }
 });
 
 userSchema.pre<IUser>('save', async function (next) {

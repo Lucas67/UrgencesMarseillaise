@@ -1,16 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, JSX } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { checkAuth } from './redux/slices/authSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { RootState, AppDispatch} from './redux/store';
 
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
 
-const PrivateRoute = ({ children }) => {
-  const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+type PrivateRouteProps = {
+  children: JSX.Element;
+};
+
+const PrivateRoute = ({ children }:PrivateRouteProps) => {
+  const { isAuthenticated, isLoading } = useSelector((state:RootState) => state.auth);
 
   if (isLoading) {
     return <p>Chargement...</p>;
@@ -21,7 +26,7 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   // Vérifier l'authentification au chargement de l'application
   useEffect(() => {
