@@ -7,6 +7,7 @@ const express_1 = require("express");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const validator_1 = __importDefault(require("validator"));
 const user_1 = __importDefault(require("../models/user"));
+const Pompier_1 = __importDefault(require("../core/Pompier"));
 const router = (0, express_1.Router)();
 // 📌 REGISTER
 router.post('/register', async (req, res) => {
@@ -25,11 +26,17 @@ router.post('/register', async (req, res) => {
         if (!validator_1.default.isEmail(email)) {
             return res.status(400).json({ status: 'error', message: 'E-mail non valide ! Merci de réessayer' });
         }
-        const newUser = new user_1.default({ username, password, email });
-        await newUser.save();
+        const user = new user_1.default({ username: username, password: password, email: email });
+        const Pompier = new Pompier_1.default(user);
+        // Affecter caserne la plus vide
+        await Pompier.AssignerPremiereCaserne();
+        Pompier.changerGrade('Matelot');
+        Pompier.changerStatus('Au repos');
+        Pompier.save();
         return res.status(200).json({ message: 'Inscription réussie !' });
     }
     catch (err) {
+        console.error(err.message);
         return res.status(500).json({ message: 'Erreur inconnue du serveur' });
     }
 });
@@ -49,9 +56,7 @@ router.post('/login', async (req, res) => {
         return res.status(200).json({ message: 'Connexion réussie !' });
     }
     catch (err) {
-        if (err instanceof Error) {
-            return res.status(500).json({ message: 'Erreur serveur', error: err.message });
-        }
+        console.log(err.message);
         return res.status(500).json({ message: 'Erreur inconnue' });
     }
 });

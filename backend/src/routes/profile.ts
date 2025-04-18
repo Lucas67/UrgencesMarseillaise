@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { getProfile } from '../controllers/pompierController';
-import auth from './auth';
+import {auth, Authenticated} from '../middleware/authMiddleware';
 
 const router = Router();
 
 
-router.get('/profile',auth, getProfile);
+router.get('/',auth, getProfile);
 
 export default router;

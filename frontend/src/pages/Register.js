@@ -20,16 +20,28 @@ function Register() {
             return; // Arrête l'exécution si la condition est vraie
         }
         // Vérification de la longueur du mot de passe
-        if (password.length < 6) {
-            toast.error("Le mot de passe doit faire au moins 6 caractères !");
-            return;
-        }
+        //    if (password.length < 6) {
+        //      toast.error("Le mot de passe doit faire au moins 6 caractères !");
+        //    return;
+        // }
         // Lancement de l'inscription
         dispatch(register({ username, password, email }));
     };
+    const handleChangeUsername = (e) => {
+        e.preventDefault();
+        setUsername(e.target.value);
+    };
+    const handleChangePassword = (e) => {
+        e.preventDefault();
+        setPassword(e.target.value);
+    };
+    const handleChangeEmail = (e) => {
+        e.preventDefault();
+        setEmail(e.target.value);
+    };
     useEffect(() => {
         if (username.length > 2) {
-            dispatch(checkUsername(username));
+            dispatch(checkUsername({ username }));
         }
     }, [username, dispatch]);
     useEffect(() => {
@@ -41,6 +53,6 @@ function Register() {
             }, 1500);
         }
     }, [isRegister, navigate]);
-    return (_jsxs(_Fragment, { children: [_jsx("h1", { children: "Formulaire d'inscription" }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("input", { type: "text", placeholder: "Saissisez une adresse mail", value: email, onChange: (e) => setEmail(e.target.value) }), username.length > 2 && (_jsx("p", { style: { color: isUsernameAvailable ? 'green' : 'red' }, children: isUsernameAvailable ? `Nom d'utilisateur disponible` : `Nom d'utilisateur déjà pris !` })), _jsx("input", { type: "text", placeholder: "Choissiez un nom d'utilisateur", value: username, onChange: (e) => setUsername(e.target.value) }), _jsx("input", { type: "password", placeholder: "Tapez votre mot de passe", value: password, onChange: (e) => setPassword(e.target.value) }), _jsx("button", { type: "submit", children: "S'inscrire" })] })] }));
+    return (_jsxs(_Fragment, { children: [_jsx("h1", { children: "Formulaire d'inscription" }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("input", { type: "text", placeholder: "Saissisez une adresse mail", value: email, onChange: handleChangeEmail }), username.length > 2 && (_jsx("p", { style: { color: isUsernameAvailable ? 'green' : 'red' }, children: isUsernameAvailable ? `Nom d'utilisateur disponible` : `Nom d'utilisateur déjà pris !` })), _jsx("input", { type: "text", placeholder: "Choissiez un nom d'utilisateur", value: username, onChange: handleChangeUsername }), _jsx("input", { type: "password", placeholder: "Tapez votre mot de passe", value: password, onChange: handleChangePassword }), _jsx("button", { type: "submit", children: "S'inscrire" })] })] }));
 }
 export default Register;

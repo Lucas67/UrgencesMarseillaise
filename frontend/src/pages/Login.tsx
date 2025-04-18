@@ -14,14 +14,24 @@ function Login() {
   const navigate = useNavigate();
   const {isAuthenticated} = useSelector((state: RootState) => state.auth);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(loginUser({username, password}));
     };
 
-const handleRegister = (e) => {
+const handleRegister = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
   e.preventDefault();
-  navigate('/register');
+  navigate('/register')
+};
+
+const handleChangeUsername = (e:React.ChangeEvent<HTMLInputElement>) => {
+  e.preventDefault();
+  setUsername(e.target.value);
+};
+
+const handleChangePassword = (e:React.ChangeEvent<HTMLInputElement>) => {
+  e.preventDefault();
+  setPassword(e.target.value);
 }
 
     useEffect(() => {
@@ -38,14 +48,14 @@ if (isAuthenticated) {
                     type="text"
                     placeholder="Nom d'utilisateur"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={handleChangeUsername}
                     style={{ width: '100%', margin: '5px 0', padding: '8px' }}
                 />
                 <input
                     type="password"
                     placeholder="Mot de passe"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleChangePassword}
                     style={{ width: '100%', margin: '5px 0', padding: '8px' }}
                 />  
                 <button type="submit">Se connecter</button>

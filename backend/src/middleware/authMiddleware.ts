@@ -1,6 +1,5 @@
 import {Request, Response, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
-import User, {IUser} from '../models/user';
 
 interface Authenticated extends Request {
   user?: IUser;
@@ -16,13 +15,11 @@ if(!token) {
 }
 
 const decoded = jwt.verify(token,process.env.SECRET_KEY as string) as {id: string};
-
 const user = await User.findById(decoded.id);
 
 if(!user) {
   return res.status(404).json({message: "Utilisateur non trouvé"});
 }
-
 req.user = user;
 
 next();

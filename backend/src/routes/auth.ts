@@ -2,6 +2,8 @@ import {Router,Request, Response} from 'express';
 import jwt from 'jsonwebtoken';
 import validator from 'validator';
 import User from '../models/user';
+import UserCore from '../core/Pompier';
+import { AnyARecord } from 'node:dns';
 
 const router = Router();
 
@@ -26,14 +28,19 @@ router.post('/register', async(req: Request, res: Response) => {
     if (!validator.isEmail(email)) {
       return res.status(400).json({ status: 'error', message: 'E-mail non valide ! Merci de réessayer' });
     }
-
-    const newUser = new User({ username, password, email });
-    await newUser.save();
-
+    
+    const user = new User({username: username, password: password, email: email});
+    const Pompier = new UserCore(user);
+    // Affecter caserne la plus vide
+    await Pompier.AssignerPremiereCaserne();
+    Pompier.changerGrade('Matelot');
+    Pompier.changerStatus('Au repos');
+    Pompier.save();
     return res.status(200).json({ message: 'Inscription réussie !' });
 
   } 
-  catch (err: unknown) {
+  catch (err:any) {
+    console.error(err.message);
     return res.status(500).json({ message: 'Erreur inconnue du serveur' });
 
   }
@@ -59,10 +66,8 @@ router.post('/login', async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: 'Connexion réussie !' });
 
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      return res.status(500).json({ message: 'Erreur serveur', error: err.message });
-    }
+  } catch (err:any) {
+    console.log(err.message);
     return res.status(500).json({ message: 'Erreur inconnue' });
   }
 });

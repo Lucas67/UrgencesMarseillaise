@@ -1,4 +1,4 @@
-import {ICaserne} from '../models/caserne';
+
 import { Vehicule } from './Vehicule';
 import CaserneManager from '../services/CaserneManager';
 

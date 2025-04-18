@@ -1,4 +1,16 @@
 import { createSlice, createAsyncThunk, isRejected, isRejectedWithValue} from "@reduxjs/toolkit";
+import {User} from "../types"
+
+
+type ProfileState = {
+    user: User | null;
+    error: string | null;
+}
+
+const initialState:ProfileState ={
+    user: null,
+    error:null,
+}
 
 const getProfile = createAsyncThunk(
     'profile/getProfile',
@@ -19,27 +31,24 @@ const getProfile = createAsyncThunk(
         }
         const data = await response.json();
         return data;
-    } catch(err) {
+    } catch(err:any) {
         return rejectWithValue(err.message);
     }
     })
 
 const profile = createSlice({
     name: 'profile',
-    initialState: {
-        user:null,
-        error: null
-    },
+    initialState,
+    reducers: {},
 extraReducers: (builder) => {
     builder
     .addCase(getProfile.fulfilled, (state,action) => {
-        console.log("Données du profil récupérées :", action.payload);
-        state.user = action.payload.user;
+        state.user = action.payload as User;
+        console.log(state.user);
     })
     .addCase(getProfile.rejected, (state,action) => {
-        console.log("Erreur lors de la récupération du profil :", action.payload);
         state.user = null;
-        state.error = action.payload;
+        state.error =action.payload as string;
     })
 } 
 })

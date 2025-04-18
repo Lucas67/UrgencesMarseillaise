@@ -3,13 +3,11 @@ import { ToastContainer, toast } from "react-toastify";
 import {User, Login} from '../types.js';
 import 'react-toastify/dist/ReactToastify.css';
 
-type AuthError = {
-    message: string;
-}
 
-export const loginUser = createAsyncThunk<User, Login,{rejectValue:AuthError}>(
+
+export const loginUser = createAsyncThunk<User, Login,{rejectValue: string}>(
     'auth/loginUser',
-    async ({username, password}:Login,thunkAPI) => {
+    async ({username, password}:Login,{rejectWithValue}) => {
         try {
             const apiURL = import.meta.env.VITE_API_URL;
             const response = await fetch(`${apiURL}/auth/login`, {
@@ -54,13 +52,13 @@ export const checkAuth = createAsyncThunk(
 
             const data = await response.json();
             return data.user;
-        } catch(err) {
+        } catch(err:any) {
             return rejectWithValue(err.message);
         }
     });
 
 
-export const logout = createAsyncThunk(
+export const logout = createAsyncThunk<boolean, void>(
     'auth/logout',
     async(__,{rejectWithValue}) =>{
         try {
@@ -79,13 +77,13 @@ export const logout = createAsyncThunk(
          }
 
          return true;
-        } catch(err) {
+        } catch(err:any) {
             return rejectWithValue(err.message);
         }
     }
 );
 
-export const checkUsername = createAsyncThunk(
+export const checkUsername = createAsyncThunk<boolean,{username:string}>(
     'auth/checkUsername',
     async (username, { rejectWithValue }) => {
         try {
@@ -104,13 +102,13 @@ export const checkUsername = createAsyncThunk(
 
             const data = await response.json();
             return data;
-        } catch (err) {
+        } catch (err:any) {
             return rejectWithValue(err.message);
         }
     }
 );
 
-export const register = createAsyncThunk(
+export const register = createAsyncThunk<boolean,{username:string,password:string,email:string}>(
     'auth/regiter',
     async({username, password,email}, {rejectWithValue}) => {
         try {
@@ -131,7 +129,7 @@ export const register = createAsyncThunk(
           const data = await response.json();
           return data;
 
-        } catch(err) {
+        } catch(err:any) {
           return rejectWithValue(err.message);
         }
     }
@@ -159,6 +157,7 @@ const authSlice = createSlice({
             state.isLoading = false;
         })
         .addCase(loginUser.rejected, (state,action) => {
+        console.log(action.payload);
         state.isLoading = false;
         state.isAuthenticated = false;
         toast.error('Identifiants incorrects !');
@@ -179,7 +178,7 @@ const authSlice = createSlice({
         })
         .addCase(checkUsername.pending, (state) => {
             state.isLoading = true;
-            state.isUsernameAvailable = null;
+            state.isUsernameAvailable = false;
         })
         .addCase(checkUsername.fulfilled, (state, action) => {
             state.isLoading = false;
@@ -187,7 +186,7 @@ const authSlice = createSlice({
         })
         .addCase(checkUsername.rejected, (state, action) => {
             state.isLoading = false;
-            state.isUsernameAvailable = null;
+            state.isUsernameAvailable = false;
         })
         .addCase(register.fulfilled, (state, action) => {
             state.isRegister = true;
