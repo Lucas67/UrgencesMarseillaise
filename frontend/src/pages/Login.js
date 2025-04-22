@@ -31,6 +31,6 @@ function Login() {
             navigate('/profile');
         }
     }, [isAuthenticated, navigate]);
-    return (_jsx(_Fragment, { children: _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("input", { type: "text", placeholder: "Nom d'utilisateur", value: username, onChange: handleChangeUsername, style: { width: '100%', margin: '5px 0', padding: '8px' } }), _jsx("input", { type: "password", placeholder: "Mot de passe", value: password, onChange: handleChangePassword, style: { width: '100%', margin: '5px 0', padding: '8px' } }), _jsx("button", { type: "submit", children: "Se connecter" }), _jsx("button", { onClick: handleRegister, children: "S'inscrire" })] }) }));
+    return (_jsx(_Fragment, { children: _jsx("div", { className: "container d-flex align-items-center justify-contet-center", style: { minHeight: '100vh' }, children: _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("input", { type: "text", placeholder: "Nom d'utilisateur", value: username, onChange: handleChangeUsername, style: { width: '100%', margin: '5px 0', padding: '8px' } }), _jsx("input", { type: "password", placeholder: "Mot de passe", value: password, onChange: handleChangePassword, style: { width: '100%', margin: '5px 0', padding: '8px' } }), _jsx("button", { type: "submit", children: "Se connecter" }), _jsx("button", { onClick: handleRegister, children: "S'inscrire" })] }) }) }));
 }
 export default Login;

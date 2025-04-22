@@ -18,7 +18,7 @@ const getProfile = createAsyncThunk('profile/getProfile', async (__, { rejectWit
             throw new Error(errorData.message || 'Erreur serveur');
         }
         const data = await response.json();
-        return data;
+        return data.pompierJSON;
     }
     catch (err) {
         return rejectWithValue(err.message);

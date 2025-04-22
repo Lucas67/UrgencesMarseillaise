@@ -40,9 +40,9 @@ if (isAuthenticated) {
 }
     },[isAuthenticated, navigate]);
     
-  
   return (
     <>
+    <div className="container d-flex align-items-center justify-contet-center" style={{minHeight: '100vh'}}>
      <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -61,6 +61,7 @@ if (isAuthenticated) {
                 <button type="submit">Se connecter</button>
                 <button onClick={handleRegister}>S'inscrire</button>
         </form>
+        </div>
     </>
   )
 }

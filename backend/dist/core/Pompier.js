@@ -1,52 +1,89 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pompier = void 0;
-const CaserneManager_1 = __importDefault(require("../services/CaserneManager"));
 class Pompier {
-    constructor(data) {
-        this.data = data;
+    constructor(username, email, password, caserneId = 0, grade = 'Matelot', status = 'Au repos') {
+        this._caserneId = 0;
+        this._username = username;
+        this._email = email;
+        this._password = password;
+        this._caserneId = caserneId;
+        this._grade = grade;
+        this._status = status;
+        this._planning = [];
     }
-    get Username() {
-        return this.data.username;
+    get id() {
+        return this._id;
     }
-    get Email() {
-        return this.data.email;
+    set id(value) {
+        this._id = value;
     }
-    get CaserneName() {
-        return this.data.caserneName;
+    get username() {
+        return this._username;
+    }
+    set username(value) {
+        this._username = value;
+    }
+    get email() {
+        return this._email;
+    }
+    set email(value) {
+        this._email = value;
     }
     get grade() {
-        return this.data.grade;
+        return this._grade;
+    }
+    set grade(value) {
+        this._grade = value;
     }
     get status() {
-        return this.data.status;
+        return this._status;
     }
-    changerStatus(newStatus) {
-        this.data.status = newStatus;
+    set status(value) {
+        this._status = value;
     }
-    changerCaserne(newCaserne) {
-        this.data.caserneName = newCaserne;
+    get caserneId() {
+        return this._caserneId;
     }
-    changerGrade(newGrade) {
-        this.data.grade = newGrade;
+    set caserneId(value) {
+        this._caserneId = value;
     }
-    async AssignerPremiereCaserne() {
-        const caserne = await CaserneManager_1.default.getCaserneMiniEffectif();
-        this.data.caserneName = caserne.name;
+    get password() {
+        return this._password;
     }
-    async save() {
-        await this.data.save();
+    set password(password) {
+        this._password = password;
+    }
+    get caserne() {
+        return this._caserne;
+    }
+    set caserne(caserne) {
+        this._caserne = caserne;
+    }
+    get planning() {
+        return this._planning;
+    }
+    set planning(planning) {
+        this.planning = planning;
     }
     toJSON() {
         return {
-            username: this.data.username,
-            email: this.data.email,
-            caserneName: this.data.caserneName,
-            grade: this.data.grade,
-            status: this.data.status,
+            id: this._id,
+            username: this._username,
+            email: this._email,
+            caserneId: this._caserneId,
+            grade: this._grade,
+            status: this._status,
+        };
+    }
+    returnJSONCaserne() {
+        return {
+            caserne: this._caserne
+        };
+    }
+    returnJSONPlanning() {
+        return {
+            planning: this._planning
         };
     }
 }

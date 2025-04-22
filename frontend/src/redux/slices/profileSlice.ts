@@ -30,7 +30,7 @@ const getProfile = createAsyncThunk(
             throw new Error(errorData.message || 'Erreur serveur');
         }
         const data = await response.json();
-        return data;
+        return data.pompierJSON;
     } catch(err:any) {
         return rejectWithValue(err.message);
     }
@@ -43,7 +43,7 @@ const profile = createSlice({
 extraReducers: (builder) => {
     builder
     .addCase(getProfile.fulfilled, (state,action) => {
-        state.user = action.payload as User;
+        state.user = action.payload
         console.log(state.user);
     })
     .addCase(getProfile.rejected, (state,action) => {

@@ -1,15 +1,51 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Caserne {
+  id           Int        @id @default(autoincrement())
+  name         String
+  groupement   String
+  latitude     Float
+  longitude    Float
+  effectifAct  Int
+  maxEffectif  Int
+  vehicules    Vehicule[]    // 💥 Relation 1 caserne ➔ plusieurs véhicules
+  users        User[]
+}
+
+model Planning {
+  id        Int         @id @default(autoincrement())
+  pompierId Int
+  annee     Int
+  nrSemaine Int
+  data      Json
+  pompier   User      @relation(fields: [pompierId], references: [id])
+}
+
+model Vehicule {
+  id         Int       @id @default(autoincrement())
+  type       String
+  statut     String
+  latitude   Float
+  longitude  Float
+  caserneId  Int
+  caserne    Caserne   @relation(fields: [caserneId], references: [id])
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  username    String    @unique
+  email       String    @unique
+  password    String
+  caserneId   Int
+  grade       String
+  status      String    @default("Au repos")
+  caserne     Caserne   @relation(fields: [caserneId], references: [id])
+  Planning    Planning[]
 }

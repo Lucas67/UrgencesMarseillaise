@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { checkAuth } from './redux/slices/authSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Register from './pages/Register';

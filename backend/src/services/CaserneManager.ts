@@ -1,44 +1,68 @@
-import CaserneModel from '../models/caserne';
-import UserModel from '../models/user';
-import {ICaserne} from '../models/caserne';
-import { IVehicule } from '../models/vehicule';
+import Vehicule from "../core/Vehicule";
+import {prisma} from "../prismaClient";
+import {Caserne} from "../core/Caserne";
 
-const MAX_EFFECTIF = 45;
+export class CaserneManager {
+    
+    static async getVehiculesByCaserneId(caserneId: number): Promise<Vehicule[]> {
+        try {
+            const vehicules = await prisma.vehicule.findMany({
+                where: {
+                    caserneId: caserneId,
+                }
+            })
 
-export async function getVehiculeCaserne(name: string): Promise<IVehicule[]> {
-  const caserne = await CaserneModel
-    .findById(name)
-    .populate<{ vehicules: IVehicule[] }>('vehicules')
-    .exec();
+            if (!vehicules) {
+                throw new Error("No vehicules found for the specified caserneId.");
+            }
+            const vehiculesReturned = vehicules.map(vehicule => {
+                const newVehicule = new Vehicule(vehicule.type, vehicule.caserneId);
+                newVehicule.id = vehicule.id;
+                newVehicule.statut = vehicule.statut;
+                newVehicule.latitude = vehicule.latitude;
+                newVehicule.longitude = vehicule.longitude;
+                return newVehicule;
+            })
+            return vehiculesReturned;
+        } catch (error) {
+            console.error("Error fetching vehicules by caserneId:", error);
+            throw new Error("Unable to fetch vehicules for the specified caserne.");    
 
-  if (!caserne || !caserne.vehicules) {
-    return [];
-  }
+        }
+    }
 
-  return caserne.vehicules;
+    static async AjouterVehiculeDansCaserne(vehicule: Vehicule, caserneId: number) {
+        try {
+            const caserne = await prisma.caserne.findUnique({
+                where: {
+                    id: caserneId,
+                },
+                include: {
+                    vehicules: true, // Include the vehicules relation
+                }
+            });
+            if(!caserne) {
+                throw new Error("Caserne not found.");
+            }
+
+            const casernePOO = new Caserne(caserne.name,caserne.groupement,caserne.latitude,caserne.longitude);
+            casernePOO.id = caserne.id;
+            casernePOO.vehicules = caserne.vehicules.map(vehicule => {
+                const newVehicule = new Vehicule(vehicule.type, vehicule.caserneId);
+                newVehicule.id = vehicule.id;
+                newVehicule.statut = vehicule.statut;
+                newVehicule.latitude = vehicule.latitude;
+                newVehicule.longitude = vehicule.longitude;
+                return newVehicule;
+            });
+
+            casernePOO.ajouterVehicule(vehicule);
+            await casernePOO.saveToDB();
+        } catch (error:any) {
+            console.error("Error adding vehicule to caserne:", error);
+            throw new Error("Unable to add vehicule to the specified caserne.");
+        }
+    }
 }
 
-export async function getCaserneMiniEffectif(): Promise<ICaserne> {
-
-  const caserne = await CaserneModel.find();
-
-  const caserneAcvecEffectif = await Promise.all(
-    caserne.map(async(caserne) => {
-      const count = await UserModel.countDocuments({caserneName: caserne.name});
-      return {caserne, count};
-    })
-  );
-
-  const caserneDispo = caserneAcvecEffectif.filter(effectif => effectif.count < MAX_EFFECTIF);
-
-  const caserneMiniEffectif = caserneDispo.sort((a,b) => a.count - b.count)[0];
-
-  return caserneMiniEffectif.caserne;
-
-}
-
-
-export default {
-    getVehiculeCaserne,
-    getCaserneMiniEffectif
-}
+export default CaserneManager

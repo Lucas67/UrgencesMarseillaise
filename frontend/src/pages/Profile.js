@@ -1,4 +1,4 @@
-import { jsxs as _jsxs, jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,13 +18,15 @@ function Profile() {
         dispatch(getProfile())
             .then((res) => console.log("getProfile dispatché :", res))
             .catch((err) => console.error("Erreur lors du dispatch :", err));
-        console.log(user);
-    }, []);
+    }, [dispatch]);
     const handleLogout = () => {
         dispatch(logout()).then(() => {
             navigate('/');
         });
     };
-    return (_jsxs(_Fragment, { children: [user ? (_jsxs("h1", { children: ["Nom: ", user.username, "Grade actuel: ", user.grade, "Caserne: ", user.caserneName, "Etat : ", user.status] })) : (_jsx("h1", { children: "Aucun profil charg\u00E9" })), _jsx("button", { onClick: handleLogout, children: "Se d\u00E9connecter" })] }));
+    if (!user) {
+        return _jsx("h1", { children: "Chargement du profil..." });
+    }
+    return (_jsxs(_Fragment, { children: [_jsxs("h1", { children: ["Nom: ", user.username, _jsx("br", {}), "Grade actuel: ", user.grade, _jsx("br", {}), "Etat : ", user.status] }), _jsx("button", { onClick: handleLogout, children: "Se d\u00E9connecter" })] }));
 }
 export default Profile;
