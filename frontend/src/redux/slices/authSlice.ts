@@ -85,10 +85,10 @@ export const logout = createAsyncThunk<boolean, void>(
 
 export const checkUsername = createAsyncThunk<boolean,{username:string}>(
     'auth/checkUsername',
-    async (username, { rejectWithValue }) => {
+    async (payload, { rejectWithValue }) => {
         try {
             const apiURL = import.meta.env.VITE_API_URL;
-            const response = await fetch(`${apiURL}/auth/checkUsername/${username}`, {
+            const response = await fetch(`${apiURL}/auth/checkUsername/${payload.username}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -101,7 +101,7 @@ export const checkUsername = createAsyncThunk<boolean,{username:string}>(
             }
 
             const data = await response.json();
-            return data;
+            return data.available;
         } catch (err:any) {
             return rejectWithValue(err.message);
         }

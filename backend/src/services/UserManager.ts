@@ -94,8 +94,13 @@ export class UserManager {
     }
 
     static async checkUsername(username: string): Promise<boolean> {
+        console.log(username);
         const user = await prisma.user.findUnique({ where: { username } });
-        return !user;
+        console.log(user);
+        if(user?.username) {
+            return false;
+        }
+        return true;
     }
 
     static async LoadPompier(id: number): Promise<Pompier> {

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {RootState, AppDispatch} from '../redux/store';
+import {Header} from '../composants/Header'
+import './LoginPage.css'
 
 function Login() {
 
@@ -42,26 +44,30 @@ if (isAuthenticated) {
     
   return (
     <>
-    <div className="container d-flex align-items-center justify-contet-center" style={{minHeight: '100vh'}}>
-     <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Nom d'utilisateur"
-                    value={username}
-                    onChange={handleChangeUsername}
-                    style={{ width: '100%', margin: '5px 0', padding: '8px' }}
-                />
-                <input
-                    type="password"
-                    placeholder="Mot de passe"
-                    value={password}
-                    onChange={handleChangePassword}
-                    style={{ width: '100%', margin: '5px 0', padding: '8px' }}
-                />  
-                <button type="submit">Se connecter</button>
-                <button onClick={handleRegister}>S'inscrire</button>
+    <div className="login-bg">
+      <Header />
+      <div className="login-card text-center">
+        <h4 className="mb-4">Connexion</h4>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <input type="text" className="form-control" placeholder="Nom d’utilisateur" onChange={handleChangeUsername} />
+          </div>
+          <div className="mb-3">
+            <input type="password" className="form-control" placeholder="Mot de passe" onChange={handleChangePassword} />
+          </div>
+          <div className="d-grid mb-3">
+            <button type="submit" className="btn-login">
+              Se connecter
+            </button>
+          </div>
+          <div className="d-grid">
+            <button type="button" onClick={handleRegister} className="btn-register">
+              S’inscrire
+            </button>
+          </div>
         </form>
-        </div>
+      </div>
+      </div>
     </>
   )
 }

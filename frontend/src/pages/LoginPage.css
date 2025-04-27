@@ -1,0 +1,63 @@
+.login-bg {
+    position: relative;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+  }
+  
+  .login-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://s1.1zoom.me/big0/0/France_Houses_Sea_446076.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: blur(2px);
+    z-index: -1;
+  }
+  
+  .login-card {
+    background: rgba(255, 255, 255);
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 400px;
+    margin: auto;
+    margin-top: 10vh;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-login {
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid red;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+
+.btn-login:hover {
+background-color: white;
+color: red;
+}
+
+.btn-register {
+    background-color: orange;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid orange;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-register:hover {
+    background-color: white;
+    color: orange;
+}
+.handwritten {
+    font-size: x-large;
+    font-family: 'Patrick Hand', cursive;
+}
+  

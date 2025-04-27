@@ -5,6 +5,9 @@ import { checkUsername, register, resetRegister } from "../redux/slices/authSlic
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { Header } from '../composants/Header';
+import './RegisterPage.css';
+import ReCAPTCHA from 'react-google-recaptcha';
 function Register() {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -53,6 +56,7 @@ function Register() {
             }, 1500);
         }
     }, [isRegister, navigate]);
-    return (_jsxs(_Fragment, { children: [_jsx("h1", { children: "Formulaire d'inscription" }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("input", { type: "text", placeholder: "Saissisez une adresse mail", value: email, onChange: handleChangeEmail }), username.length > 2 && (_jsx("p", { style: { color: isUsernameAvailable ? 'green' : 'red' }, children: isUsernameAvailable ? `Nom d'utilisateur disponible` : `Nom d'utilisateur déjà pris !` })), _jsx("input", { type: "text", placeholder: "Choissiez un nom d'utilisateur", value: username, onChange: handleChangeUsername }), _jsx("input", { type: "password", placeholder: "Tapez votre mot de passe", value: password, onChange: handleChangePassword }), _jsx("button", { type: "submit", children: "S'inscrire" })] })] }));
+    return (_jsx(_Fragment, { children: _jsxs("div", { className: "register-bg", children: [_jsx(Header, {}), _jsxs("div", { className: "register-card", children: [_jsxs("div", { className: "mb-4", children: [_jsx("h1", { className: "text-center", children: "Formulaire d'inscription" }), _jsx("p", { className: "text-center", children: "Votre aventure commence en tant que pompier engag\u00E9 : b\u00E2tissez votre carri\u00E8re et devenez un pilier du secours marseillais \uD83D\uDEA8" })] }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsxs("div", { className: "mb-3 form", children: [_jsx("input", { type: "text", placeholder: "Saissisez une adresse mail", value: email, onChange: handleChangeEmail, className: "form-control" }), _jsx("small", { className: "form-text text-muted", children: "Votre e-mail est utilis\u00E9 en cas d'oubli de vos identifiants ! \uD83D\uDE27 " })] }), _jsxs("div", { className: "mb-3", children: [_jsx("input", { type: "text", placeholder: "Choissiez un nom d'utilisateur", value: username, onChange: handleChangeUsername, className: username.length === 0 ? 'form-control' : isUsernameAvailable
+                                                ? 'form-control username-available' : 'form-control username-not-available' }), username.length > 2 && (_jsx("small", { className: isUsernameAvailable ? "form-text text-success" : "form-text text-danger", children: isUsernameAvailable ? "Nom d'utilisateur disponible ✅" : "Nom d'utilisateur déjà pris ❌" }))] }), _jsx("div", { className: "mb-3", children: _jsx("input", { type: "password", placeholder: "Tapez votre mot de passe", value: password, onChange: handleChangePassword, className: "form-control" }) }), _jsx(ReCAPTCHA, { className: "align-center", sitekey: import.meta.env.VITE_APP_SITE_KEY }), _jsx("button", { type: "submit", children: "S'inscrire" })] })] })] }) }));
 }
 export default Register;

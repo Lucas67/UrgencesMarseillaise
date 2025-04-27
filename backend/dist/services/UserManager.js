@@ -79,8 +79,13 @@ class UserManager {
         return pompier;
     }
     static async checkUsername(username) {
+        console.log(username);
         const user = await prismaClient_1.prisma.user.findUnique({ where: { username } });
-        return !user;
+        console.log(user);
+        if (user?.username) {
+            return false;
+        }
+        return true;
     }
     static async LoadPompier(id) {
         const user = await prismaClient_1.prisma.user.findUnique({ where: { id },

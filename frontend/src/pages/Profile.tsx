@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { logout } from '../redux/slices/authSlice';
 import { getProfile } from '../redux/slices/profileSlice';
 import { AppDispatch, RootState } from "../redux/store";
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
 function Profile() {
     const { isAuthenticated, isLoading } = useSelector((state: RootState) => state.auth);

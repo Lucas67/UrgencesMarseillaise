@@ -64,10 +64,10 @@ export const logout = createAsyncThunk('auth/logout', async (__, { rejectWithVal
         return rejectWithValue(err.message);
     }
 });
-export const checkUsername = createAsyncThunk('auth/checkUsername', async (username, { rejectWithValue }) => {
+export const checkUsername = createAsyncThunk('auth/checkUsername', async (payload, { rejectWithValue }) => {
     try {
         const apiURL = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiURL}/auth/checkUsername/${username}`, {
+        const response = await fetch(`${apiURL}/auth/checkUsername/${payload.username}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -78,7 +78,7 @@ export const checkUsername = createAsyncThunk('auth/checkUsername', async (usern
             throw new Error(errorData.message || 'Erreur lors de la vérification');
         }
         const data = await response.json();
-        return data;
+        return data.available;
     }
     catch (err) {
         return rejectWithValue(err.message);
