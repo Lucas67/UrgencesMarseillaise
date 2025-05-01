@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login';
-import Profile from './pages/Profile';
+import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
 const PrivateRoute = ({ children }) => {
     const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
@@ -27,7 +27,7 @@ function App() {
     useEffect(() => {
         toast.dismiss();
     }, [location]);
-    return (_jsxs(_Fragment, { children: [_jsx(ToastContainer, { position: "bottom-right", autoClose: false }), _jsxs(Routes, { children: [_jsx(Route, { path: "/", element: _jsx(Login, {}) }), _jsx(Route, { path: "/register", element: _jsx(Register, {}) }), _jsx(Route, { path: "/profile", element: _jsx(PrivateRoute, { children: _jsx(Profile, {}) }) })] })] }));
+    return (_jsxs(_Fragment, { children: [_jsx(ToastContainer, { position: "bottom-right", autoClose: false }), _jsxs(Routes, { children: [_jsx(Route, { path: "/", element: _jsx(Login, {}) }), _jsx(Route, { path: "/register", element: _jsx(Register, {}) }), _jsx(Route, { path: "/dashboard", element: _jsx(PrivateRoute, { children: _jsx(Dashboard, {}) }) })] })] }));
 }
 const Root = () => (_jsx(BrowserRouter, { children: _jsx(App, {}) }));
 export default Root;

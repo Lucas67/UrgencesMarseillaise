@@ -2,17 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const UserManager_1 = require("../services/UserManager");
+const axios = require('axios');
 class UserController {
     static async register(req, res) {
-        const { username, email, password } = req.body;
+        const { username, email, password, dateNaissance, tokenCaptcha } = req.body;
         try {
-            const token = await UserManager_1.UserManager.CreateUser(username, email, password);
-            res.cookie('token', token, {
-                httpOnly: true,
-                sameSite: 'strict',
-                secure: process.env.NODE_ENV === 'production',
-                maxAge: 7 * 24 * 60 * 60 * 1000
-            });
+            const SITE_SECRET = process.env.SITE_SECRET;
+            const { data } = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${SITE_SECRET}&response=${tokenCaptcha}`);
+            if (!data.success) {
+                return res.status(400).json({ message: `Echec de la vérification du reCAPTCHA` });
+            }
+            const token = await UserManager_1.UserManager.CreateUser(username, email, password, dateNaissance);
+            res.cookie('token', token, UserController.getCookieOptions());
             return res.status(200).json({ message: 'Inscription réussie !' });
         }
         catch (err) {
@@ -77,8 +78,15 @@ class UserController {
                 return res.status(404).json({ message: 'Utilisateur non trouvé !' });
             }
             const pompier = await UserManager_1.UserManager.LoadPompier(req.user.id);
-            const pompierJSON = pompier.toJSON();
-            return res.status(200).json({ pompierJSON });
+            const pompierHeader = {
+                username: pompier.username,
+                grade: pompier.grade,
+                status: pompier.status,
+                caserne: {
+                    name: pompier.caserne?.name
+                }
+            };
+            return res.status(200).json({ pompierHeader });
         }
         catch (err) {
             return res.status(500).json({ message: err.message });

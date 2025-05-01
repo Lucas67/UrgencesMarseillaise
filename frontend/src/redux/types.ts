@@ -38,3 +38,11 @@ export type AuthState = {
         isUsernameAvailable: boolean;
         isRegister: boolean;
 }
+
+export enum GradeImage {
+    Matelot = "/assets/MO1.jpg"
+}
+
+export function getImage(grade:string): string | undefined {
+return GradeImage[grade as keyof typeof GradeImage];
+}

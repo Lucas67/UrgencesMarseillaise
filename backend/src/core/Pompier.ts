@@ -8,16 +8,18 @@ export class Pompier {
   private _username: string;
   private _email: string;
   private _password: string;
+  private _dateNaissance:string;
   private _caserneId: number = 0;
   private _grade: string;
   private _status: string;
   private _caserne?: Caserne;
   private _planning : Planning[];
 
-  constructor(username: string, email: string, password: string, caserneId:number = 0,grade: string = 'Matelot',status = 'Au repos') { 
+  constructor(username: string, email: string, password: string, caserneId:number = 0,grade: string = 'Matelot',status = 'Au repos',dateNaissance:string) { 
     this._username = username;
     this._email = email;
     this._password = password;
+    this._dateNaissance = dateNaissance;
     this._caserneId = caserneId;
     this._grade = grade;
     this._status = status;
@@ -85,6 +87,12 @@ get planning(): Planning[] {
 }
 set planning(planning: Planning[]) {
   this.planning = planning;
+}
+get dateNaissance() {
+  return this._dateNaissance;
+}
+set dateNaissance(dateNaissance:string) {
+  this._dateNaissance = dateNaissance;
 }
 
   toJSON() {

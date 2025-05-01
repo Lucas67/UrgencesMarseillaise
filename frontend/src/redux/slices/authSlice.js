@@ -84,7 +84,7 @@ export const checkUsername = createAsyncThunk('auth/checkUsername', async (paylo
         return rejectWithValue(err.message);
     }
 });
-export const register = createAsyncThunk('auth/regiter', async ({ username, password, email }, { rejectWithValue }) => {
+export const register = createAsyncThunk('auth/regiter', async ({ username, password, email, dateNaissance, tokenCaptcha }, { rejectWithValue }) => {
     try {
         const apiURL = import.meta.env.VITE_API_URL;
         const response = await fetch(`${apiURL}/auth/register`, {
@@ -92,7 +92,8 @@ export const register = createAsyncThunk('auth/regiter', async ({ username, pass
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, password, email })
+            credentials: 'include',
+            body: JSON.stringify({ username, password, email, dateNaissance, tokenCaptcha })
         });
         if (!response.ok) {
             const errorData = await response.json();
@@ -111,11 +112,15 @@ const authSlice = createSlice({
         isAuthenticated: false,
         isLoading: false,
         isUsernameAvailable: false,
-        isRegister: false
+        isRegister: false,
+        isDone: false,
     },
     reducers: {
         resetRegister: (state) => {
             state.isRegister = false;
+        },
+        resetIsDone: (state) => {
+            state.isDone = false;
         }
     },
     extraReducers: (builder) => {
@@ -146,10 +151,12 @@ const authSlice = createSlice({
         })
             .addCase(checkUsername.pending, (state) => {
             state.isLoading = true;
+            state.isDone = false;
             state.isUsernameAvailable = false;
         })
             .addCase(checkUsername.fulfilled, (state, action) => {
             state.isLoading = false;
+            state.isDone = true;
             state.isUsernameAvailable = action.payload;
         })
             .addCase(checkUsername.rejected, (state, action) => {
@@ -158,11 +165,12 @@ const authSlice = createSlice({
         })
             .addCase(register.fulfilled, (state, action) => {
             state.isRegister = true;
+            state.isAuthenticated = true;
         })
             .addCase(register.rejected, (state, action) => {
             toast.error(`${action.payload}`);
         });
     }
 });
-export const { resetRegister } = authSlice.actions;
+export const { resetRegister, resetIsDone } = authSlice.actions;
 export default authSlice.reducer;

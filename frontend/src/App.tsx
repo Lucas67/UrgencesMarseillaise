@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { RootState, AppDispatch} from './redux/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login';
-import Profile from './pages/Profile';
+import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
 
 type PrivateRouteProps = {
@@ -44,7 +44,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
       </Routes>
     </>
   );

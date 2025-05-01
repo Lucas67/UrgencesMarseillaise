@@ -38,7 +38,7 @@ const handleChangePassword = (e:React.ChangeEvent<HTMLInputElement>) => {
 
     useEffect(() => {
 if (isAuthenticated) {
-  navigate('/profile')
+  navigate('/dashboard')
 }
     },[isAuthenticated, navigate]);
     

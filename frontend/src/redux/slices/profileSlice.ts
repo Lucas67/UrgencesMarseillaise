@@ -30,7 +30,7 @@ const getProfile = createAsyncThunk(
             throw new Error(errorData.message || 'Erreur serveur');
         }
         const data = await response.json();
-        return data.pompierJSON;
+        return data.pompierHeader;
     } catch(err:any) {
         return rejectWithValue(err.message);
     }

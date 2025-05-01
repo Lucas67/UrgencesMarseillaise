@@ -21,7 +21,7 @@ function generateToken(pompier: Pompier): string {
 
 export class UserManager {
     
-    static async CreateUser(username: string, email: string, password:string): Promise<string> {
+    static async CreateUser(username: string, email: string, password:string,dateNaissance:string): Promise<string> {
 
         const [userUsername, userEmail] = await Promise.all([
           prisma.user.findUnique({ where: { username } }),
@@ -47,13 +47,14 @@ export class UserManager {
                 username: username,
                 email: email,
                 password: hashedPassword,
+                dateNaissance: dateNaissance,
                 caserneId: 1, // TODO : Affecter caserne la moins peuplée 
                 grade: 'Matelot',
                 status: 'Au repos',
             }
         })
 
-        const pompier = new Pompier(username, email, hashedPassword, pompierCreated.caserneId, 'Matelot', 'Au repos');
+        const pompier = new Pompier(username, email, hashedPassword, pompierCreated.caserneId, 'Matelot', 'Au repos',pompierCreated.dateNaissance);
         pompier.id = pompierCreated.id;
 
         return generateToken(pompier);
@@ -65,7 +66,7 @@ export class UserManager {
             throw new Error('Identifiants incorrects !');
         }
 
-        const pompier = new Pompier(userData.username,userData.email,userData.password,userData.caserneId,userData.grade,userData.status);
+        const pompier = new Pompier(userData.username,userData.email,userData.password,userData.caserneId,userData.grade,userData.status,userData.dateNaissance);
         pompier.id = userData.id;
         
         const isPasswordValid = await comparePassword(password, pompier.password);
@@ -87,7 +88,7 @@ export class UserManager {
             throw new Error('Utilisateur non trouvé !');
         }
 
-        const pompier = new Pompier(pompierData.username, pompierData.email, pompierData.password, pompierData.caserneId, pompierData.grade, pompierData.status);
+        const pompier = new Pompier(pompierData.username, pompierData.email, pompierData.password, pompierData.caserneId, pompierData.grade, pompierData.status,pompierData.dateNaissance);
         pompier.id = pompierData.id;
 
         return pompier;
@@ -116,7 +117,7 @@ export class UserManager {
             throw new Error('Pompier non trouvé !');
         }
 
-        const pompier = new Pompier(user.username, user.email, user.password, user.caserneId, user.grade, user.status);
+        const pompier = new Pompier(user.username, user.email, user.password, user.caserneId, user.grade, user.status,user.dateNaissance);
         pompier.id = user.id;
         pompier.caserne = user.caserne; // Assigner la caserne à l'objet pompier
         return pompier

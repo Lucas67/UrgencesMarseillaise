@@ -2,11 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pompier = void 0;
 class Pompier {
-    constructor(username, email, password, caserneId = 0, grade = 'Matelot', status = 'Au repos') {
+    constructor(username, email, password, caserneId = 0, grade = 'Matelot', status = 'Au repos', dateNaissance) {
         this._caserneId = 0;
         this._username = username;
         this._email = email;
         this._password = password;
+        this._dateNaissance = dateNaissance;
         this._caserneId = caserneId;
         this._grade = grade;
         this._status = status;
@@ -65,6 +66,12 @@ class Pompier {
     }
     set planning(planning) {
         this.planning = planning;
+    }
+    get dateNaissance() {
+        return this._dateNaissance;
+    }
+    set dateNaissance(dateNaissance) {
+        this._dateNaissance = dateNaissance;
     }
     toJSON() {
         return {

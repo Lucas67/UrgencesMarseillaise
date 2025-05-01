@@ -43,6 +43,7 @@ model User {
   username    String    @unique
   email       String    @unique
   password    String
+  dateNaissance String
   caserneId   Int
   grade       String
   status      String    @default("Au repos")

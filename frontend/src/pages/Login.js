@@ -30,7 +30,7 @@ function Login() {
     };
     useEffect(() => {
         if (isAuthenticated) {
-            navigate('/profile');
+            navigate('/dashboard');
         }
     }, [isAuthenticated, navigate]);
     return (_jsx(_Fragment, { children: _jsxs("div", { className: "login-bg", children: [_jsx(Header, {}), _jsxs("div", { className: "login-card text-center", children: [_jsx("h4", { className: "mb-4", children: "Connexion" }), _jsxs("form", { onSubmit: handleSubmit, children: [_jsx("div", { className: "mb-3", children: _jsx("input", { type: "text", className: "form-control", placeholder: "Nom d\u2019utilisateur", onChange: handleChangeUsername }) }), _jsx("div", { className: "mb-3", children: _jsx("input", { type: "password", className: "form-control", placeholder: "Mot de passe", onChange: handleChangePassword }) }), _jsx("div", { className: "d-grid mb-3", children: _jsx("button", { type: "submit", className: "btn-login", children: "Se connecter" }) }), _jsx("div", { className: "d-grid", children: _jsx("button", { type: "button", onClick: handleRegister, className: "btn-register", children: "S\u2019inscrire" }) })] })] })] }) }));

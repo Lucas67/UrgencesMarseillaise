@@ -49,6 +49,8 @@ color: red;
     border-radius: 5px;
     border: 2px solid orange;
     padding: 0.5rem;
+    display: block;
+    width: 100%;
     cursor: pointer;
 }
 

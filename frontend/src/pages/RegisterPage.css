@@ -23,13 +23,9 @@
     background-color: white;
     border-radius: 2rem;
     margin: auto;
-    padding: 1rem;
+    padding: 2em;
     max-width: 600px;
-    margin-top: 10vh;
-  }
-
-  .form-control {
-    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-top: 10vh
   }
   .username-available {
     border: 2px solid green !important;
@@ -37,3 +33,13 @@
   .username-not-available {
     border: 2px solid red !important;
   }
+  .captcha {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+  }
+  
