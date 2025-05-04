@@ -24,8 +24,6 @@ function Profile() {
 
     useEffect(() => {
         dispatch(getProfile())
-            .then((res) => console.log("getProfile dispatché :", res))
-            .catch((err) => console.error("Erreur lors du dispatch :", err));
     }, [dispatch]);
 
     const handleLogout = () => {
@@ -41,8 +39,23 @@ function Profile() {
     return (
         <>
         <HeaderWithData pompier={user} />
-        <div className="container-fluid d-flex flex-wrap align-items-center justify-content-end p-3">
-        <Card style={{width: '40%'}} className="shadow-lg" >
+        <div className="container mt-5">
+          <div className="row g-5">
+        <div className="col-md-6">
+        <Card style={{width: '100%', minHeight:'150px'}} className="shadow-lg" >
+            <Card.Header className="bg-danger text-white">
+            <i className="bi bi-list-columns me-2 fw-bold"/>Listes des tâches
+            </Card.Header>
+            <Card.Body className="d-flex flex-column gap-2">
+  <div className="d-flex align-items-center">
+    En cours de développement...
+    </div>
+</Card.Body>
+
+        </Card>
+        </div>
+        <div className="col-md-6">
+        <Card style={{width: '100%', minHeight:'150px'}} className="shadow-lg" >
             <Card.Header className="bg-danger text-white">
             <i className="bi bi-person-square me-2 fw-bold"/>Informations
             </Card.Header>
@@ -62,12 +75,28 @@ function Profile() {
     <i className="bi bi-geo-alt text-primary me-2"></i>
     <div className="d-flex flex-wrap">
       <div className="fw-bold me-1">Affectation :</div>
-      <div className="text-muted">{user.caserne?.name?? "Non affecté"}</div>
     </div>
   </div>
 </Card.Body>
 
         </Card>
+        </div>
+        <div className="col-md-12">
+        <Card style={{width: '100%', minHeight: '150px'}} className="shadow-lg" >
+            <Card.Header className="bg-danger text-white">
+            <i className="bi bi-car-front-fill me-2 fw-bold"/>Véhicules
+            </Card.Header>
+            <Card.Body className="d-flex flex-column gap-2">
+            <div className="container">
+            <div className="row">
+            
+            </div>  
+            </div>
+</Card.Body>
+
+        </Card>
+        </div>
+        </div>
         </div>
         </>
 )}

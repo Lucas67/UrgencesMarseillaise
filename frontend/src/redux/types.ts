@@ -5,7 +5,6 @@ export type Caserne = {
     longitude: number;
     maxEffectif: number;
     vehicules: Vehicule[];
-    users: User[];
 }
 
 export type Vehicule = {
@@ -24,7 +23,6 @@ export type User ={
     caserneId: number;
     grade: string;
     status: string;
-    caserne: Caserne;
 }
 
 export type Login = {

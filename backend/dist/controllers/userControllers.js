@@ -81,10 +81,7 @@ class UserController {
             const pompierHeader = {
                 username: pompier.username,
                 grade: pompier.grade,
-                status: pompier.status,
-                caserne: {
-                    name: pompier.caserne?.name
-                }
+                status: pompier.status
             };
             return res.status(200).json({ pompierHeader });
         }

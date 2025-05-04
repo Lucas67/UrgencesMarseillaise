@@ -9,9 +9,9 @@ class Caserne {
         this._groupement = groupement;
         this._latitude = latitude;
         this._longitude = longitude;
-        this._vehicules = []; // ✅ Toujours initialiser
+        this._vehicules = [];
         this._users = [];
-        this._maxEffectif = 0; // ✅ Toujours initialiser
+        this._maxEffectif = 0;
     }
     get id() {
         return this._id;
@@ -87,6 +87,15 @@ class Caserne {
             }
         });
         return update;
+    }
+    toJSON() {
+        return {
+            id: this._id,
+            name: this._name,
+            latitude: this._latitude,
+            longitude: this._longitude,
+            groupement: this._groupement
+        };
     }
 }
 exports.Caserne = Caserne;

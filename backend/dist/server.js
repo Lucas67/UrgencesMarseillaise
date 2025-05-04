@@ -13,6 +13,7 @@ const http_1 = __importDefault(require("http"));
 const auth_1 = __importDefault(require("./routes/auth"));
 const profile_1 = __importDefault(require("./routes/profile"));
 const planning_1 = __importDefault(require("./routes/planning"));
+const caserne_1 = __importDefault(require("./routes/caserne"));
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 app.use((0, cors_1.default)({
@@ -25,6 +26,7 @@ const PORT = process.env.LISTEN_PORT || 3000;
 app.use('/auth', auth_1.default);
 app.use('/profile', profile_1.default);
 app.use('/planning', planning_1.default);
+app.use('/caserne', caserne_1.default);
 server.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
