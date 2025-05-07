@@ -60,10 +60,10 @@ export class UserController {
 
   static async checkAuth(req: Request, res: Response) {
     try {
-      const pompier = await UserManager.checkAuth(req.cookies.token);
-      return res.status(200).json({ pompier });
+      const AuthenticatedRes = await UserManager.checkAuth(req.cookies.token);
+      return res.status(200).json({isAuthenticated: AuthenticatedRes});
     } catch (err: any) {
-      return res.status(401).json({ message: err.message });
+      return res.status(200).json({isAuthenticated: false});
     }
   }
 
@@ -77,24 +77,6 @@ export class UserController {
     }
   }
 
-  static async LoadProfile(req: Authenticated, res:Response) {
-    try {
-      if(!req.user || !req.user.id) {
-        return res.status(404).json({message : 'Utilisateur non trouvé !'});
-      }
-
-      const pompier = await UserManager.LoadPompier(req.user.id)
-      const pompierHeader = {
-        username: pompier.username,
-        grade: pompier.grade,
-        status: pompier.status
-      }
-
-      return res.status(200).json({pompierHeader});
-    } catch (err: any) {
-      return res.status(500).json({ message: err.message });
-    }
-  }
 }
 
 export default UserController

@@ -10,22 +10,11 @@ generator client {
 model Caserne {
   id           Int        @id @default(autoincrement())
   name         String
-  groupement   String
   latitude     Float
   longitude    Float
-  effectifAct  Int
-  maxEffectif  Int
-  vehicules    Vehicule[]    // 💥 Relation 1 caserne ➔ plusieurs véhicules
-  users        User[]
-}
-
-model Planning {
-  id        Int         @id @default(autoincrement())
-  pompierId Int
-  annee     Int
-  nrSemaine Int
-  data      Json
-  pompier   User      @relation(fields: [pompierId], references: [id])
+  vehicules    Vehicule[]
+  userOwnerId  Int  
+  userOwner    User      @relation(fields: [userOwnerId], references: [id])     
 }
 
 model Vehicule {
@@ -43,10 +32,7 @@ model User {
   username    String    @unique
   email       String    @unique
   password    String
-  dateNaissance String
-  caserneId   Int
-  grade       String
-  status      String    @default("Au repos")
-  caserne     Caserne   @relation(fields: [caserneId], references: [id])
-  Planning    Planning[]
+  dateNaissance DateTime
+  money       Int
+  casernes     Caserne[]
 }

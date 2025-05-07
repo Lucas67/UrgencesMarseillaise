@@ -13,10 +13,6 @@ export default function HeaderWithData({ pompier }: HeaderWithDataProps) {
     </div>
       <div className="container-fluid d-flex justify-content-end align-items-center">
         <span  className="mb-0 text-muted">{pompier.username}</span>
-        <img
-          src={getImage(pompier.grade)}
-          className="rounded-circle img-profile m-2"
-        />
         </div>
     </Navbar>
   );

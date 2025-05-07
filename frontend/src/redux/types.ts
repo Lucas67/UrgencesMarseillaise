@@ -1,9 +1,7 @@
 export type Caserne = {
     name: string;
-    groupement: string;
     latitude: number;
     longitude: number;
-    maxEffectif: number;
     vehicules: Vehicule[];
 }
 
@@ -19,10 +17,7 @@ export type Vehicule = {
 export type User ={
     username: string;
     email: string;
-    password: string;
     caserneId: number;
-    grade: string;
-    status: string;
 }
 
 export type Login = {

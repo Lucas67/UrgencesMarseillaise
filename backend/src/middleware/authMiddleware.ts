@@ -1,10 +1,11 @@
 import {Request, Response, NextFunction} from 'express';
-import {Pompier} from '../core/Pompier'
+import {User} from '../core/User'
 import {prisma} from '../prismaClient';
 import jwt from 'jsonwebtoken';
+import {User as PrismaUser} from '@prisma/client'
 
 interface Authenticated extends Request {
-  user?: Pompier;
+  user?: PrismaUser;
 }
 
 const auth = async (req:Authenticated,res:Response,next:NextFunction) => {
@@ -24,7 +25,7 @@ if(!userDecoded) {
   return res.status(404).json({message: "Utilisateur non trouvé"});
 }
 
-req.user = userDecoded as Pompier;
+req.user = userDecoded;
 
 next();
 return;

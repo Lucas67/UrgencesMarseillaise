@@ -3,15 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Caserne = void 0;
 const prismaClient_1 = require("../prismaClient");
 class Caserne {
-    constructor(name, groupement, latitude, longitude) {
+    constructor(name, latitude, longitude) {
         this._id = 0;
         this._name = name;
-        this._groupement = groupement;
         this._latitude = latitude;
         this._longitude = longitude;
         this._vehicules = [];
-        this._users = [];
-        this._maxEffectif = 0;
+        // this._users = []; 
     }
     get id() {
         return this._id;
@@ -25,12 +23,6 @@ class Caserne {
     set name(name) {
         this._name = name;
     }
-    get groupement() {
-        return this._groupement;
-    }
-    set groupement(groupement) {
-        this._groupement = groupement;
-    }
     get latitude() {
         return this._latitude;
     }
@@ -42,9 +34,6 @@ class Caserne {
     }
     set longitude(longitude) {
         this._longitude = longitude;
-    }
-    get users() {
-        return this._users;
     }
     get vehicules() {
         return this._vehicules;
@@ -61,9 +50,6 @@ class Caserne {
     obtenirVehiculeDispo() {
         return this._vehicules.filter(vehicule => vehicule.statut === 'disponible');
     }
-    obtenirEffectifAct() {
-        return this._users.length;
-    }
     async saveToDB() {
         const update = await prismaClient_1.prisma.caserne.update({
             where: {
@@ -71,10 +57,8 @@ class Caserne {
             },
             data: {
                 name: this._name,
-                groupement: this._groupement,
                 latitude: this._latitude,
                 longitude: this._longitude,
-                maxEffectif: this._maxEffectif,
                 vehicules: {
                     create: this._vehicules.map(vehicule => ({
                         type: vehicule.type,
@@ -93,8 +77,7 @@ class Caserne {
             id: this._id,
             name: this._name,
             latitude: this._latitude,
-            longitude: this._longitude,
-            groupement: this._groupement
+            longitude: this._longitude
         };
     }
 }

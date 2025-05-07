@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserManager = void 0;
-const Pompier_1 = require("../core/Pompier");
+const User_1 = require("../core/User");
 const prismaClient_1 = require("../prismaClient");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -15,11 +15,9 @@ function hashPassword(password) {
 function comparePassword(password, hash) {
     return bcryptjs_1.default.compare(password, hash);
 }
-function generateToken(pompier) {
+function generateToken(User) {
     return jsonwebtoken_1.default.sign({
-        id: pompier.id,
-        username: pompier.username,
-        grade: pompier.grade,
+        id: User.id
     }, process.env.SECRET_KEY, { expiresIn: '1h' });
 }
 class UserManager {
@@ -37,28 +35,29 @@ class UserManager {
         if (!validator_1.default.isEmail(email)) {
             throw new Error('E-mail non valide ! Merci de réessayer');
         }
+        if (!validator_1.default.isDate(dateNaissance)) {
+            throw new Error('Format de date invalide');
+        }
+        const dateNaissanceObject = new Date(dateNaissance);
         const hashedPassword = await hashPassword(password);
-        const pompierCreated = await prismaClient_1.prisma.user.create({
+        const user = new User_1.User(username, email, hashedPassword, new Date(dateNaissance));
+        const userCreated = await prismaClient_1.prisma.user.create({
             data: {
-                username: username,
-                email: email,
-                password: hashedPassword,
-                dateNaissance: dateNaissance,
-                caserneId: 1, // TODO : Affecter caserne la moins peuplée 
-                grade: 'Matelot',
-                status: 'Au repos',
+                username: user.username,
+                email: user.email,
+                password: user.password,
+                dateNaissance: user.dateNaissance,
+                money: user.money
             }
         });
-        const pompier = new Pompier_1.Pompier(username, email, hashedPassword, pompierCreated.caserneId, 'Matelot', 'Au repos', pompierCreated.dateNaissance);
-        pompier.id = pompierCreated.id;
-        return generateToken(pompier);
+        return generateToken(user);
     }
     static async LoginUser(username, password) {
         const userData = await prismaClient_1.prisma.user.findUnique({ where: { username } });
         if (!userData) {
             throw new Error('Identifiants incorrects !');
         }
-        const pompier = new Pompier_1.Pompier(userData.username, userData.email, userData.password, userData.caserneId, userData.grade, userData.status, userData.dateNaissance);
+        const pompier = new User_1.User(userData.username, userData.email, userData.password, userData.dateNaissance);
         pompier.id = userData.id;
         const isPasswordValid = await comparePassword(password, pompier.password);
         if (!isPasswordValid) {
@@ -75,9 +74,9 @@ class UserManager {
         if (!pompierData) {
             throw new Error('Utilisateur non trouvé !');
         }
-        const pompier = new Pompier_1.Pompier(pompierData.username, pompierData.email, pompierData.password, pompierData.caserneId, pompierData.grade, pompierData.status, pompierData.dateNaissance);
+        const pompier = new User_1.User(pompierData.username, pompierData.email, pompierData.password, pompierData.dateNaissance);
         pompier.id = pompierData.id;
-        return pompier;
+        return true;
     }
     static async checkUsername(username) {
         console.log(username);
@@ -87,23 +86,6 @@ class UserManager {
             return false;
         }
         return true;
-    }
-    static async LoadPompier(id) {
-        const user = await prismaClient_1.prisma.user.findUnique({ where: { id },
-            include: {
-                caserne: {
-                    include: {
-                        vehicules: true,
-                    }
-                } // Inclure la relation avec la caserne
-            } });
-        if (!user) {
-            throw new Error('Pompier non trouvé !');
-        }
-        const pompier = new Pompier_1.Pompier(user.username, user.email, user.password, user.caserneId, user.grade, user.status, user.dateNaissance);
-        pompier.id = user.id;
-        pompier.caserne = user.caserne; // Assigner la caserne à l'objet pompier
-        return pompier;
     }
 }
 exports.UserManager = UserManager;

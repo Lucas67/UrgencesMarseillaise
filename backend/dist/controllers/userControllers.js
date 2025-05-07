@@ -55,11 +55,11 @@ class UserController {
     }
     static async checkAuth(req, res) {
         try {
-            const pompier = await UserManager_1.UserManager.checkAuth(req.cookies.token);
-            return res.status(200).json({ pompier });
+            const AuthenticatedRes = await UserManager_1.UserManager.checkAuth(req.cookies.token);
+            return res.status(200).json({ isAuthenticated: AuthenticatedRes });
         }
         catch (err) {
-            return res.status(401).json({ message: err.message });
+            return res.status(200).json({ isAuthenticated: false });
         }
     }
     static async checkUsername(req, res) {
@@ -67,23 +67,6 @@ class UserController {
         try {
             const available = await UserManager_1.UserManager.checkUsername(username);
             return res.status(200).json({ available });
-        }
-        catch (err) {
-            return res.status(500).json({ message: err.message });
-        }
-    }
-    static async LoadProfile(req, res) {
-        try {
-            if (!req.user || !req.user.id) {
-                return res.status(404).json({ message: 'Utilisateur non trouvé !' });
-            }
-            const pompier = await UserManager_1.UserManager.LoadPompier(req.user.id);
-            const pompierHeader = {
-                username: pompier.username,
-                grade: pompier.grade,
-                status: pompier.status
-            };
-            return res.status(200).json({ pompierHeader });
         }
         catch (err) {
             return res.status(500).json({ message: err.message });

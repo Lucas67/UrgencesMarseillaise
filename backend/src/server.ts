@@ -7,8 +7,6 @@ import http from 'http';
 // import { Server } from 'socket.io';
 import authRoutes from './routes/auth';
 import profileRoutes from './routes/profile';
-import planningRoutes from './routes/planning';
-import caserneRoute from './routes/caserne';
 
 const app: Application = express();
 const server = http.createServer(app);
@@ -23,9 +21,6 @@ app.use(cookieParser());
 const PORT = process.env.LISTEN_PORT || 3000;
 
 app.use('/auth',authRoutes);
-app.use('/profile',profileRoutes);
-app.use('/planning', planningRoutes);
-app.use('/caserne',caserneRoute);
 
 server.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);

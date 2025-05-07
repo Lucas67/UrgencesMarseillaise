@@ -14,7 +14,7 @@ class CaserneManager {
             if (!caserneBDD) {
                 throw new Error('Caserne inexistante');
             }
-            const caserne = new Caserne_1.Caserne(caserneBDD.name, caserneBDD.groupement, caserneBDD.latitude, caserneBDD.longitude);
+            const caserne = new Caserne_1.Caserne(caserneBDD.name, caserneBDD.latitude, caserneBDD.longitude);
             return caserne.toJSON();
         }
         catch (error) {
